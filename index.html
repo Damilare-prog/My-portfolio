@@ -234,6 +234,31 @@ h1 {
     left: 0;
 }
 
+.btn-outline {
+    margin-top: 20px;
+    padding: 14px 32px;
+    border: 1px solid #444;
+    color: #aaa;
+    text-decoration: none;
+    width: fit-content;
+    font-weight: 500;
+    font-size: 12px;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    transition: 0.3s;
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    opacity: 0;
+    transform: translateY(30px);
+    animation: fadeUp 1s ease forwards 1.5s;
+}
+
+.btn-outline:hover {
+    border-color: #d4af37;
+    color: #d4af37;
+}
+
 @keyframes fadeUp {
     to { opacity: 1; transform: translateY(0); }
 }
@@ -811,6 +836,7 @@ footer {
     }
 }
 </style>
+<base target="_blank">
 </head>
 
 <body>
@@ -824,6 +850,7 @@ footer {
         <li><a href="#experience">Experience</a></li>
         <li><a href="#projects">Projects</a></li>
         <li><a href="#skills">Skills</a></li>
+        <li><a href="cv.html">Resume</a></li>
         <li><a href="#contact">Contact</a></li>
     </ul>
     <div class="hamburger" id="hamburger">
@@ -847,6 +874,7 @@ footer {
         <a href="https://instagram.com/only1_makanaki" target="_blank">📍 @only1_makanaki</a>
     </div>
     <a href="#contact" class="btn">Work With Me</a>
+    <a href="cv.html" class="btn-outline">📄 View Full Resume</a>
 </header>
 
 <!-- ABOUT -->
