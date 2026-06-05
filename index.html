@@ -407,6 +407,7 @@
             .landing-title { font-size: 2rem; }
         }
     </style>
+<base target="_blank">
 </head>
 <body>
     <div class="scanlines"></div>
@@ -436,8 +437,8 @@
             <a href="mailto:jedswordpress@gmail.com" data-label="Email"><i class="fas fa-envelope"></i></a>
             <a href="https://wa.me/2349133588720" target="_blank" data-label="WhatsApp"><i class="fab fa-whatsapp"></i></a>
         </div>
-        <div class="landing-music-toggle" onclick="toggleLandingMusic()">
-            <i class="fas fa-music"></i>
+        <div class="landing-music-toggle" onclick="toggleLandingMusic()" id="landingMusicToggle">
+            <i class="fas fa-music" id="landingMusicIcon"></i>
             <div class="music-wave" id="landingWave">
                 <span></span><span></span><span></span><span></span><span></span>
             </div>
@@ -486,7 +487,7 @@
             </button>
             <div class="music-info">
                 <span>Fur Elise</span>
-                <span style="font-size: 0.7rem; color: var(--gray);">Beethoven - Background Music</span>
+                <span style="font-size: 0.7rem; color: var(--gray);">Beethoven - Click to Pause</span>
             </div>
         </div>
 
@@ -865,7 +866,6 @@ function createNote(freq, duration, time, type) {
 function playFurElise() {
     if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
     const now = audioCtx.currentTime;
-    // Beethoven - Fur Elise (WoO 59) main theme
     const melody = [
         [659.25, 0.25], [622.25, 0.25], [659.25, 0.25], [622.25, 0.25], [659.25, 0.25], [493.88, 0.25], [587.33, 0.25], [523.25, 0.25],
         [440.00, 0.5], [261.63, 0.25], [329.63, 0.25], [440.00, 0.25],
@@ -893,39 +893,42 @@ function stopFurElise() {
     if (furEliseInterval) { clearInterval(furEliseInterval); furEliseInterval = null; }
 }
 
-function toggleMusic() {
+// Unified music state - controls BOTH synthesized music and Spotify embed
+function setMusicState(playing) {
     const icon = document.getElementById('musicIcon');
     const spotify = document.getElementById('spotifyEmbed');
-    if (isPlaying) {
-        isPlaying = false;
-        icon.className = 'fas fa-play';
-        spotify.classList.remove('active');
-        if (!landingPlaying) stopFurElise();
-    } else {
-        isPlaying = true;
+    const landingWave = document.getElementById('landingWave');
+    const landingIcon = document.getElementById('landingMusicIcon');
+
+    isPlaying = playing;
+    landingPlaying = playing;
+
+    if (playing) {
         icon.className = 'fas fa-pause';
         spotify.classList.add('active');
+        if (landingWave) landingWave.classList.remove('paused');
+        if (landingIcon) landingIcon.className = 'fas fa-music';
         startFurEliseLoop();
+    } else {
+        icon.className = 'fas fa-play';
+        spotify.classList.remove('active');
+        if (landingWave) landingWave.classList.add('paused');
+        if (landingIcon) landingIcon.className = 'fas fa-music';
+        stopFurElise();
     }
+}
+
+function toggleMusic() {
+    setMusicState(!isPlaying);
 }
 
 function toggleLandingMusic() {
-    const wave = document.getElementById('landingWave');
-    if (landingPlaying) {
-        landingPlaying = false;
-        wave.classList.add('paused');
-        if (!isPlaying) stopFurElise();
-    } else {
-        landingPlaying = true;
-        wave.classList.remove('paused');
-        startFurEliseLoop();
-    }
+    setMusicState(!isPlaying);
 }
 
+// Auto-start on landing page after 2 seconds
 setTimeout(() => {
-    landingPlaying = true;
-    document.getElementById('landingWave').classList.remove('paused');
-    startFurEliseLoop();
+    setMusicState(true);
 }, 2000);
 
 // ============ ENTER SITE ============
@@ -935,10 +938,12 @@ function enterSite() {
     landing.classList.add('hidden');
     setTimeout(() => {
         main.classList.add('visible');
-        if (landingPlaying) {
-            isPlaying = true;
-            document.getElementById('musicIcon').className = 'fas fa-pause';
-            document.getElementById('spotifyEmbed').classList.add('active');
+        // Music state is already synced, just update the UI
+        const icon = document.getElementById('musicIcon');
+        const spotify = document.getElementById('spotifyEmbed');
+        if (isPlaying) {
+            icon.className = 'fas fa-pause';
+            spotify.classList.add('active');
         }
     }, 500);
     cancelAnimationFrame(animationId);
