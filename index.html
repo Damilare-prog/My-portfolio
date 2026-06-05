@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Damilare Godwin | Portfolio</title>
+    <title>Damilare Osunrinde | Portfolio</title>
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700;800;900&family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <style>
@@ -419,7 +419,7 @@
             <div class="landing-label">System Initializing...</div>
             <h1 class="landing-title">
                 <span class="glitch" data-text="DAMILARE">DAMILARE</span><br>
-                <span class="glitch" data-text="GODWIN">GODWIN</span>
+                <span class="glitch" data-text="OSUNRINDE">OSUNRINDE</span>
             </h1>
             <p class="landing-subtitle">
                 Business Developer | Entertainment Strategist | Digital Marketer<br>
@@ -437,12 +437,9 @@
             <a href="mailto:jedswordpress@gmail.com" data-label="Email"><i class="fas fa-envelope"></i></a>
             <a href="https://wa.me/2349133588720" target="_blank" data-label="WhatsApp"><i class="fab fa-whatsapp"></i></a>
         </div>
-        <div class="landing-music-toggle" onclick="toggleLandingMusic()" id="landingMusicToggle">
+        <div class="landing-music-toggle" onclick="toggleSpotify()" id="landingMusicToggle" style="cursor: pointer;">
             <i class="fas fa-music" id="landingMusicIcon"></i>
-            <div class="music-wave" id="landingWave">
-                <span></span><span></span><span></span><span></span><span></span>
-            </div>
-            <span style="margin-left: 5px; font-family: 'Orbitron', sans-serif; font-size: 0.7rem;">Beethoven</span>
+            <span style="margin-left: 8px; font-family: 'Orbitron', sans-serif; font-size: 0.7rem;">Click for Music</span>
         </div>
     </div>
 
@@ -481,13 +478,13 @@
             <iframe style="border-radius:12px" src="https://open.spotify.com/embed/track/1DfGPEHxTYeaJpiNA4xUb5?utm_source=generator&theme=0" width="100%" height="80" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
         </div>
 
-        <div class="music-player" id="musicPlayer">
-            <button class="music-btn" onclick="toggleMusic()" id="musicBtn">
-                <i class="fas fa-pause" id="musicIcon"></i>
-            </button>
+        <div class="music-player" id="musicPlayer" style="cursor: pointer;" onclick="toggleSpotify()">
+            <div class="music-btn" style="cursor: pointer;">
+                <i class="fas fa-music" id="musicIcon"></i>
+            </div>
             <div class="music-info">
-                <span>Fur Elise</span>
-                <span style="font-size: 0.7rem; color: var(--gray);">Beethoven - Click to Pause</span>
+                <span>Now Playing</span>
+                <span style="font-size: 0.7rem; color: var(--gray);">Beethoven - Fur Elise</span>
             </div>
         </div>
 
@@ -512,7 +509,7 @@
                 </div>
                 <div class="hero-image">
                     <div class="hero-image-wrapper">
-                        <img src="IMG_2047.PNG" alt="Damilare Godwin">
+                        <img src="IMG_2047.PNG" alt="Damilare Osunrinde">
                     </div>
                 </div>
             </div>
@@ -760,7 +757,7 @@
             </div>
         </section>
 
-        <footer><p>2026 Damilare Godwin Osunrinde. All rights reserved. | Built with passion in Lagos, Nigeria.</p></footer>
+        <footer><p>2026 Damilare Osunrinde Osunrinde. All rights reserved. | Built with passion in Lagos, Nigeria.</p></footer>
     </div>
 <script>
 // ============ CANVAS PARTICLE SYSTEM ============
@@ -843,93 +840,27 @@ function animateParticles() {
 }
 animateParticles();
 
-// ============ BEETHOVEN FUR ELISE (Web Audio API) ============
-let audioCtx = null;
-let furEliseInterval = null;
-let isPlaying = false;
-let landingPlaying = false;
+// ============ SPOTIFY MUSIC PLAYER ============
+let spotifyVisible = false;
 
-function createNote(freq, duration, time, type) {
-    if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-    const osc = audioCtx.createOscillator();
-    const gain = audioCtx.createGain();
-    osc.connect(gain);
-    gain.connect(audioCtx.destination);
-    osc.type = type || 'sine';
-    osc.frequency.value = freq;
-    gain.gain.setValueAtTime(0.06, time);
-    gain.gain.exponentialRampToValueAtTime(0.001, time + duration);
-    osc.start(time);
-    osc.stop(time + duration);
-}
-
-function playFurElise() {
-    if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-    const now = audioCtx.currentTime;
-    const melody = [
-        [659.25, 0.25], [622.25, 0.25], [659.25, 0.25], [622.25, 0.25], [659.25, 0.25], [493.88, 0.25], [587.33, 0.25], [523.25, 0.25],
-        [440.00, 0.5], [261.63, 0.25], [329.63, 0.25], [440.00, 0.25],
-        [493.88, 0.5], [329.63, 0.25], [415.30, 0.25], [493.88, 0.25],
-        [523.25, 0.5], [329.63, 0.25], [493.88, 0.25], [523.25, 0.25],
-        [587.33, 0.5], [493.88, 0.25], [587.33, 0.25], [659.25, 0.25],
-        [622.25, 0.25], [587.33, 0.25], [523.25, 0.25], [493.88, 0.25], [440.00, 0.25], [493.88, 0.25], [523.25, 0.25], [587.33, 0.25]
-    ];
-    let t = now;
-    melody.forEach(([freq, dur]) => {
-        createNote(freq, dur, t, 'triangle');
-        t += dur + 0.02;
-    });
-}
-
-function startFurEliseLoop() {
-    if (furEliseInterval) clearInterval(furEliseInterval);
-    playFurElise();
-    furEliseInterval = setInterval(() => {
-        if (isPlaying || landingPlaying) playFurElise();
-    }, 10000);
-}
-
-function stopFurElise() {
-    if (furEliseInterval) { clearInterval(furEliseInterval); furEliseInterval = null; }
-}
-
-// Unified music state - controls BOTH synthesized music and Spotify embed
-function setMusicState(playing) {
-    const icon = document.getElementById('musicIcon');
+function toggleSpotify() {
     const spotify = document.getElementById('spotifyEmbed');
-    const landingWave = document.getElementById('landingWave');
-    const landingIcon = document.getElementById('landingMusicIcon');
+    const icon = document.getElementById('musicIcon');
+    spotifyVisible = !spotifyVisible;
 
-    isPlaying = playing;
-    landingPlaying = playing;
-
-    if (playing) {
-        icon.className = 'fas fa-pause';
+    if (spotifyVisible) {
         spotify.classList.add('active');
-        if (landingWave) landingWave.classList.remove('paused');
-        if (landingIcon) landingIcon.className = 'fas fa-music';
-        startFurEliseLoop();
+        if (icon) icon.className = 'fas fa-pause';
     } else {
-        icon.className = 'fas fa-play';
         spotify.classList.remove('active');
-        if (landingWave) landingWave.classList.add('paused');
-        if (landingIcon) landingIcon.className = 'fas fa-music';
-        stopFurElise();
+        if (icon) icon.className = 'fas fa-music';
     }
 }
 
-function toggleMusic() {
-    setMusicState(!isPlaying);
-}
-
-function toggleLandingMusic() {
-    setMusicState(!isPlaying);
-}
-
-// Auto-start on landing page after 2 seconds
+// Auto-show Spotify on landing page after 3 seconds
 setTimeout(() => {
-    setMusicState(true);
-}, 2000);
+    toggleSpotify();
+}, 3000);
 
 // ============ ENTER SITE ============
 function enterSite() {
@@ -938,13 +869,6 @@ function enterSite() {
     landing.classList.add('hidden');
     setTimeout(() => {
         main.classList.add('visible');
-        // Music state is already synced, just update the UI
-        const icon = document.getElementById('musicIcon');
-        const spotify = document.getElementById('spotifyEmbed');
-        if (isPlaying) {
-            icon.className = 'fas fa-pause';
-            spotify.classList.add('active');
-        }
     }, 500);
     cancelAnimationFrame(animationId);
 }
